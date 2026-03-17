@@ -17,6 +17,9 @@ export default defineConfig({
     port: 9081,
     cors: true,
   },
+  optimizeDeps: {
+    entries: [],
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, 'src'),
