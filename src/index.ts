@@ -1,8 +1,10 @@
 import { h, createApp } from 'vue';
 import singleSpaVue from 'single-spa-vue';
+import { createPinia } from 'pinia';
 import { cssLifecycleFactory } from 'vite-plugin-single-spa/ex';
 import App from './App.vue';
 import { setShared } from '@/shared/index';
+import { centralStorePlugin } from '@/http/centralStore';
 
 const vueLifecycles = singleSpaVue({
   createApp,
@@ -10,8 +12,20 @@ const vueLifecycles = singleSpaVue({
     render: () => h(App),
   },
   handleInstance: (app, props) => {
-    const { eventBus } = props;
+    const { eventBus, centralStore } = props;
     setShared('eventBus', eventBus);
+
+    const pinia = createPinia();
+    app.use(pinia);
+
+    if (centralStore) {
+      app.use(centralStorePlugin, {
+        store: centralStore.store,
+        storeSubscribe: centralStore.storeSubscribe,
+        storeGet: centralStore.storeGet,
+      });
+    }
+
     app.mount(props.domElement);
   },
 });

@@ -15,6 +15,7 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "pinia": "^3.0.4",
     "single-spa-vue": "^3.0.1",
     "vue": "^3.5.30"
   },
